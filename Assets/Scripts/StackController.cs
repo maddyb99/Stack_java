@@ -44,30 +44,25 @@ public class StackController : MonoBehaviour {
 	}
     private void splitTile()
     {
-        float nx = 0;
+        float nx = 0,xdiff=0;
         if(top>=2)
         {
-            x = stack[top - 1].transform.localPosition.x - stack[top - 2].transform.localPosition.x;
+            xdiff = stack[top - 1].transform.localPosition.x - stack[top - 2].transform.localPosition.x;
         }
         else if (top >= 1)
         {
-            x = stack[top - 1].transform.localPosition.x - stack[transform.childCount - 1].transform.localPosition.x;
+            xdiff = stack[top - 1].transform.localPosition.x - stack[transform.childCount - 1].transform.localPosition.x;
         }
         else if (top <= 0)
         {
-            x = stack[transform.childCount - 1].transform.localPosition.x - stack[transform.childCount - 2].transform.localPosition.x;
+            xdiff = stack[transform.childCount - 1].transform.localPosition.x - stack[transform.childCount - 2].transform.localPosition.x;
         }
-        float sc = stack[transform.childCount - 1].transform.localScale.x - Mathf.Abs(x);
+        float sc = stack[transform.childCount - 1].transform.localScale.x - Mathf.Abs(xdiff);
         stack[top - 1].transform.localScale = new Vector3(sc, 1, 1);
-        if(x>=0)
-            nx = stack[top - 1].transform.localPosition.x-(sc / 2);
-        else
-            nx = stack[top - 1].transform.localPosition.x + (sc / 2);
+        nx = stack[top - 1].transform.localPosition.x-(xdiff / 2f);
+        X = nx;
         stack[top - 1].transform.localPosition = new Vector3(nx, stack[top - 1].transform.localPosition.y, stack[top - 1].transform.localPosition.z);
-
-
-
-
+                     
     }
 
     private void spawnTile() {
@@ -96,7 +91,7 @@ public class StackController : MonoBehaviour {
       if ((top - 1) % 2 != 0 || top == transform.childCount)
             stack[top - 1].transform.localPosition = new Vector3(Mathf.Sin(tileTransition), k, 0);
      else
-            stack[top - 1].transform.localPosition = new Vector3(0, k, Mathf.Sin(tileTransition));
+            stack[top - 1].transform.localPosition = new Vector3(X, k, Mathf.Sin(tileTransition));
 
     }
 }
