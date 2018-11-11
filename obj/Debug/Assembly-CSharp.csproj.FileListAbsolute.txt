@@ -166,3 +166,7 @@ C:\Users\mital\Desktop\Stacks\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs
 C:\Users\mital\Desktop\Stacks\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\Users\mital\Desktop\Stacks\obj\Debug\Assembly-CSharp.dll
 C:\Users\mital\Desktop\Stacks\obj\Debug\Assembly-CSharp.pdb
+D:\Users\Madhav\Documents\2nd Year\JAVA\stack\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+D:\Users\Madhav\Documents\2nd Year\JAVA\stack\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
+D:\Users\Madhav\Documents\2nd Year\JAVA\stack\obj\Debug\Assembly-CSharp.dll
+D:\Users\Madhav\Documents\2nd Year\JAVA\stack\obj\Debug\Assembly-CSharp.pdb

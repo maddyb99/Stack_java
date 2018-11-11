@@ -7,7 +7,7 @@ public class StackController : MonoBehaviour {
     private GameObject[] stack;
     private int score=0;
     private int j=0, k;
-    float x,i;
+    float X=0,x,Z=0,i;
     public int topIndex;
     private int speed = 3;
     private int top;
@@ -44,11 +44,28 @@ public class StackController : MonoBehaviour {
 	}
     private void splitTile()
     {
-        x = tileTransition-i;
+        float nx = 0;
+        if(top>=2)
+        {
+            x = stack[top - 1].transform.localPosition.x - stack[top - 2].transform.localPosition.x;
+        }
+        else if (top >= 1)
+        {
+            x = stack[top - 1].transform.localPosition.x - stack[transform.childCount - 1].transform.localPosition.x;
+        }
+        else if (top <= 0)
+        {
+            x = stack[transform.childCount - 1].transform.localPosition.x - stack[transform.childCount - 2].transform.localPosition.x;
+        }
+        float sc = stack[transform.childCount - 1].transform.localScale.x - Mathf.Abs(x);
+        stack[top - 1].transform.localScale = new Vector3(sc, 1, 1);
+        if(x>=0)
+            nx = stack[top - 1].transform.localPosition.x-(sc / 2);
+        else
+            nx = stack[top - 1].transform.localPosition.x + (sc / 2);
+        stack[top - 1].transform.localPosition = new Vector3(nx, stack[top - 1].transform.localPosition.y, stack[top - 1].transform.localPosition.z);
 
-        stack[top - 1].transform.localScale = new Vector3(Mathf.Abs(x), 1, 1);
 
-       
 
 
     }
