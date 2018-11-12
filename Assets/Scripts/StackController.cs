@@ -7,7 +7,7 @@ public class StackController : MonoBehaviour {
     private GameObject[] stack;
     private int score=0;
     private int j=0, k;
-    float X=0,x,Z=0,i;
+    float X=0,Z=0,scx=0,scz=0,i;
     public int topIndex;
     private int speed = 3;
     private int top;
@@ -44,32 +44,27 @@ public class StackController : MonoBehaviour {
 	}
     private void splitTile()
     {
-        float nx = 0,xdiff=0;
-        if(top>=2)
-        {
-            xdiff = stack[top - 1].transform.localPosition.x - stack[top - 2].transform.localPosition.x;
-        }
-        else if (top >= 1)
-        {
-            xdiff = stack[top - 1].transform.localPosition.x - stack[transform.childCount - 1].transform.localPosition.x;
-        }
-        else if (top <= 0)
-        {
-            xdiff = stack[transform.childCount - 1].transform.localPosition.x - stack[transform.childCount - 2].transform.localPosition.x;
-        }
-        float sc = stack[transform.childCount - 1].transform.localScale.x - Mathf.Abs(xdiff);
-        stack[top - 1].transform.localScale = new Vector3(sc, 1, 1);
-        nx = stack[top - 1].transform.localPosition.x-(xdiff / 2f);
-        X = nx;
-        stack[top - 1].transform.localPosition = new Vector3(nx, stack[top - 1].transform.localPosition.y, stack[top - 1].transform.localPosition.z);
+        float xdiff=0,zdiff=0;
+
+
+            xdiff = stack[top - 1].transform.localPosition.x - X;
+            zdiff = stack[top - 1].transform.localPosition.z - Z;
+
+        scx = stack[top - 1].transform.localScale.x - Mathf.Abs(xdiff);
+        scz = stack[top - 1].transform.localScale.z - Mathf.Abs(zdiff);
+        stack[top - 1].transform.localScale = new Vector3(scx, 1, scz);
+        X = stack[top - 1].transform.localPosition.x-(xdiff / 2f);
+        Z = stack[top - 1].transform.localPosition.z - (zdiff / 2f);
+        stack[top - 1].transform.localPosition = new Vector3(X, stack[top - 1].transform.localPosition.y, Z);
                      
     }
 
     private void spawnTile() {
         
         k++;
-        stack[topIndex].transform.localPosition = new Vector3(0, k, 0);
-       
+        stack[topIndex].transform.localPosition = new Vector3(X, k, Z);
+        stack[topIndex].transform.localScale = new Vector3(scx, 1, scz);
+
         topIndex++;
         if (top == transform.childCount)
         {
@@ -89,7 +84,7 @@ public class StackController : MonoBehaviour {
         tileTransition += speed * Time.deltaTime;
      
       if ((top - 1) % 2 != 0 || top == transform.childCount)
-            stack[top - 1].transform.localPosition = new Vector3(Mathf.Sin(tileTransition), k, 0);
+            stack[top - 1].transform.localPosition = new Vector3(Mathf.Sin(tileTransition), k, Z);
      else
             stack[top - 1].transform.localPosition = new Vector3(X, k, Mathf.Sin(tileTransition));
 
