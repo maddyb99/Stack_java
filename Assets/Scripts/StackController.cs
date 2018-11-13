@@ -5,18 +5,14 @@ using UnityEngine;
 public class StackController : MonoBehaviour {
 
     private GameObject[] stack;
-    private int score=0;
-    private int j=0, k;
-    float X=0,Z=0,scx=0,scz=0,i;
+    private TextMesh dispscore;
+    private int score=0,Flag=1,j=0, k,top;
+    private float X=0,Z=0,scx=5,scz=5,i,speed = 2f,tileTransition=0.0f;
     public int topIndex;
-    private int speed = 3;
-    private int top;
-    private float tileTransition=0.0f;
-   
-
+    private bool gameFlag = true;
 	void Start () {
         stack = new GameObject[transform.childCount];
-        
+        dispscore = new TextMesh();
         for (j = 0; j < transform.childCount; j++)
         {
         stack[j] = transform.GetChild(j).gameObject;
@@ -31,16 +27,30 @@ public class StackController : MonoBehaviour {
 
 	void Update () {
 
-        moveTile();
-
-        if (Input.GetKeyDown("space"))
+        if (gameFlag)
         {
-            splitTile();
-            spawnTile();
-
-           
-            score++;
+            if (score != 0 && Flag == 1 && score % 10 == 0)
+            {
+                speed += 0.75f;
+                Flag = 0;
+            }
+            else if (score % 10 != 0)
+                Flag = 1;
+            moveTile();
+            if (Input.GetKeyDown("space"))
+            {
+                splitTile();
+                spawnTile();
+                score++;
+                gameFlag = endCheck();
+                
+                transform.position = new Vector3(transform.position.x, transform.position.y -1, transform.position.z);
+                dispscore.text = string.Empty + score;
+            }
         }
+        else
+            return;
+       
 	}
     private void splitTile()
     {
@@ -84,9 +94,18 @@ public class StackController : MonoBehaviour {
         tileTransition += speed * Time.deltaTime;
      
       if ((top - 1) % 2 != 0 || top == transform.childCount)
-            stack[top - 1].transform.localPosition = new Vector3(Mathf.Sin(tileTransition), k, Z);
+            stack[top - 1].transform.localPosition = new Vector3(X+Mathf.Sin(tileTransition)*(scx+0.5f), k, Z);
      else
-            stack[top - 1].transform.localPosition = new Vector3(X, k, Mathf.Sin(tileTransition));
+            stack[top - 1].transform.localPosition = new Vector3(X, k, Z+Mathf.Sin(tileTransition)*(scz+0.5f));
 
+    }
+
+    private bool endCheck()
+    {
+        if (scx <= 0.1 || scx <= 0.1)
+            return false;
+        if (stack[top - 1].transform.localPosition.x >= (X+scx) || stack[top - 1].transform.localPosition.x <= (X - scx)|| stack[top - 1].transform.localPosition.z >= (X+scz)|| stack[top - 1].transform.localPosition.z <= (X - scz))
+            return false;
+        return true;
     }
 }
